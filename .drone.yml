@@ -1,0 +1,55 @@
+kind: pipeline
+type: docker
+name: default
+#设置平台
+platform:
+  os: linux
+  arch: amd64
+#开始
+steps:
+  - name: build
+    image: gradle:7.4 #使用Gradle镜像
+    volumes:
+      - name: sdk
+        path: /drone/src/sdk
+      - name: gradle
+        path: /drone/src/gradle
+    environment:
+      ANDROID_HOME: /drone/src/sdk
+      GRADLE_HOME: /drone/src/gradle-8.0
+      #ANDROID_HOME: /drone/src/sdk
+      # /drone/src 就是项目根目录。这里把SDK的环境变量设定一下，确保license生效
+    commands:
+      - ls /drone/src/sdk
+      - ls /drone/src/gradle/bin
+      - ls -l
+      - chmod +x gradlew
+      - ./gradlew assembleRelease --stacktrace # 打印堆栈
+      - ls -l
+      - ls -l app/build/outputs/apk/release
+  - name: upload
+    image: minio/mc
+    environment:
+      ADDRESS:
+        from_secret: MINIO_ADDRESS
+      ACCESS_KEY:
+        from_secret: MINIO_ACCESS_KEY
+      SECRET_KEY:
+        from_secret: MINIO_SECRET_KEY
+    commands:
+      - echo $ADDRESS
+      - echo $ACCESS_KEY
+      - echo $SECRET_KEY
+      - mc config host add myminio $ADDRESS $ACCESS_KEY $SECRET_KEY
+      - mc version
+      - mc ls
+      - cd app/build/outputs/apk/release
+      - apk_file=`ls | head -1`
+      - mc cp $apk_file myminio/uchi
+volumes:
+  - name: sdk
+    host:
+      path: /mnt/user/appdata/drone/tools/android/sdk
+  - name: gradle
+    host:
+      path: /mnt/user/appdata/drone/tools/gradle-8.0
