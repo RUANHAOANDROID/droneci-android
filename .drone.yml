@@ -13,7 +13,7 @@ steps:
       - name: sdk
         path: /drone/src/sdk
       - name: gradle-cache
-        path: /root/.gradle  # 映射 Gradle 缓存目录
+        path: /home/gradle/.gradle  # 映射 Gradle 缓存目录
     environment:
       ANDROID_HOME: /drone/src/sdk
       #ANDROID_HOME: /drone/src/sdk
