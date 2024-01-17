@@ -32,15 +32,15 @@ steps:
       SECRET_KEY:
         from_secret: MINIO_SECRET_KEY             #Drone->Settings->Secrets SECRET_KEY
     commands:
-      - mc config host add mio $ADDRESS $ACCESS_KEY $SECRET_KEY
-      - cd app/build/outputs/apk/release
-      - apk_file=`ls | head -1`
-      - mc cp $apk_file mio/uchi
-volumes:
-  - name: sdk
-    host:
-      path: /mnt/user/appdata/drone/tools/android/sdk
-  - name: gradle-cache
-    host:
-      path: /mnt/user/appdata/drone/tools/gradle/cache-droneci
+      - mc config host add mio $ADDRESS $ACCESS_KEY $SECRET_KEY   #设定MINIO
+      - cd app/build/outputs/apk/release                          #进入构建结果目录
+      - apk_file=`ls | head -1`                                   #列出构建产物
+      - mc cp $apk_file mio/uchi                                  #mc cp拷贝到MINIO相应路径
+volumes:                                                          #卷挂载
+  - name: sdk                                                     #宿主机卷名SDK
+    host:                                                         
+      path: /mnt/user/appdata/drone/tools/android/sdk             #宿主机路径
+  - name: gradle-cache                                            #宿主机卷名gradle cache
+    host: 
+      path: /mnt/user/appdata/drone/tools/gradle/cache-droneci    #宿主机路径
 ```
