@@ -42,4 +42,4 @@ volumes:
       path: /mnt/user/appdata/drone/tools/android/sdk
   - name: gradle-cache
     host:
-      path: /mnt/user/appdata/drone/tools/gradle-cache
+      path: /mnt/user/appdata/drone/tools/gradle/cache-droneci
