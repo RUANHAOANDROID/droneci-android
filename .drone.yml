@@ -8,7 +8,7 @@ platform:
 #开始
 steps:
   - name: build
-    image: gradle:7.4 #使用Gradle镜像
+    image: gradle:8.0 #使用Gradle镜像
     volumes:
       - name: sdk
         path: /drone/src/sdk
