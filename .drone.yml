@@ -16,7 +16,7 @@ steps:
         path: /drone/src/gradle
     environment:
       ANDROID_HOME: /drone/src/sdk
-      GRADLE_HOME: /drone/src/gradle-8.0
+      GRADLE_HOME: /drone/src/gradle
       #ANDROID_HOME: /drone/src/sdk
       # /drone/src 就是项目根目录。这里把SDK的环境变量设定一下，确保license生效
     commands:
@@ -24,7 +24,8 @@ steps:
       - ls /drone/src/gradle/bin
       - ls -l
       - chmod +x gradlew
-      - cp gradle/wrapper gradle-8.0/wrapper
+      - chmod +x gradle
+      - gradle wrapper
       - ./gradlew assembleRelease --stacktrace # 打印堆栈
       - ls -l
       - ls -l app/build/outputs/apk/release
