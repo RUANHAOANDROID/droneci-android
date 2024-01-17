@@ -33,9 +33,7 @@ steps:
         from_secret: MINIO_SECRET_KEY             #Drone->Settings->Secrets SECRET_KEY
     commands:
       - mc config host add mio $ADDRESS $ACCESS_KEY $SECRET_KEY   #设定MINIO
-      - cd app/build/outputs/apk/release                          #进入构建结果目录
-      - apk_file=`ls | head -1`                                   #列出构建产物
-      - mc cp $apk_file mio/uchi                                  #mc cp拷贝到MINIO相应路径
+      - mc cp app/build/outputs/apk/landscape/release/*.apk mio/uchi #mc cp拷贝到MINIO相应路径
 volumes:                                                          #卷挂载
   - name: sdk                                                     #宿主机卷名SDK
     host:                                                         
