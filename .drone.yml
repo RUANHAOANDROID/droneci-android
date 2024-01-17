@@ -16,15 +16,9 @@ steps:
         path: /home/gradle/.gradle  # 映射 Gradle 缓存目录
     environment:
       ANDROID_HOME: /drone/src/sdk
-      #ANDROID_HOME: /drone/src/sdk
-      # /drone/src 就是项目根目录。这里把SDK的环境变量设定一下，确保license生效
     commands:
-      - ls /drone/src/sdk
-      - ls -l
       - chmod +x gradlew
       - ./gradlew assembleRelease --stacktrace # 打印堆栈
-      - ls -l
-      - ls -l app/build/outputs/apk/release
   - name: upload-minio
     image: minio/mc:RELEASE.2024-01-16T16-06-34Z
     environment:
@@ -38,12 +32,10 @@ steps:
       - echo $ADDRESS
       - echo $ACCESS_KEY
       - echo $SECRET_KEY
-      - mc config host add myminio $ADDRESS $ACCESS_KEY $SECRET_KEY
-      - mc version
-      - mc ls
+      - mc config host add mio $ADDRESS $ACCESS_KEY $SECRET_KEY
       - cd app/build/outputs/apk/release
       - apk_file=`ls | head -1`
-      - mc cp $apk_file myminio/uchi
+      - mc cp $apk_file mio/uchi
 volumes:
   - name: sdk
     host:
