@@ -30,7 +30,7 @@ steps:
       - ls -l
       - ls -l app/build/outputs/apk/release
   - name: upload
-    image: minio/mc
+    image: minio/mc:RELEASE.2024-01-16T16-06-34Z
     environment:
       ADDRESS:
         from_secret: MINIO_ADDRESS
