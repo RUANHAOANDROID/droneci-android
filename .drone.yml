@@ -25,7 +25,7 @@ steps:
       - ./gradlew assembleRelease --stacktrace # 打印堆栈
       - ls -l
       - ls -l app/build/outputs/apk/release
-  - name: upload
+  - name: upload-minio
     image: minio/mc:RELEASE.2024-01-16T16-06-34Z
     environment:
       ADDRESS:
