@@ -24,6 +24,7 @@ steps:
       - ls /drone/src/gradle/bin
       - ls -l
       - chmod +x gradlew
+      - cp gradle/wrapper gradle-8.0/wrapper
       - ./gradlew assembleRelease --stacktrace # 打印堆栈
       - ls -l
       - ls -l app/build/outputs/apk/release
