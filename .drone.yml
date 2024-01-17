@@ -18,7 +18,6 @@ steps:
       # /drone/src 就是项目根目录。这里把SDK的环境变量设定一下，确保license生效
     commands:
       - ls /drone/src/sdk
-      - ls /drone/src/gradle/bin
       - ls -l
       - chmod +x gradlew
       - ./gradlew assembleRelease --stacktrace # 打印堆栈
